@@ -1,17 +1,23 @@
 #playerCard{
-	font-size: 30px;
+	font-size: 50px;
 	padding: 40px;
+	width: 100px;
+	height: 170px;
 	background: blue;
 	position: absolute;
 	left: 100px;
     top: 100px;
+    border-radius: 8px;
 }
 
 #computerCard{
-	font-size: 30px;
+	font-size: 50px;
 	padding: 40px;
+	width: 100px;
+	height: 170px;
 	background: red;
 	position: absolute;
 	left: 300px;
     top: 100px;
+    border-radius: 8px;
 }
