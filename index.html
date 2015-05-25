@@ -6,15 +6,47 @@
 	<link rel="stylesheet" href="style.css">
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="war.js"></script>
+	<!-- Latest compiled and minified bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
 </head>
 <body>
-	Player: <span id="playerCard">  </span>
-	Computer: <span id="computerCard">  </span>
-	<br>
-	<button id="newGame"> New Game </button>
-	<br>
-	<button id="flip"> Flip </button>
-	<br>
-	<button id="take">Take</button>
+	<div class="container">
+		<div class="row bump">
+		</div>
+		<div class="row">
+			<div class ="col-xs-12">
+				<button id="newGame"> New Game </button>
+				<!-- player deck -->
+				<div class="col-xs-3">
+					<br>
+					<div class="pDeck card"> </div>
+				</div>
+				<div class="col-xs-3">
+					Player:
+					<br>
+					<div class="pCard card" id="playerCard">  </div>
+				</div>
+				<div class="col-xs-3">
+					Computer:
+					<br>
+					<div class="cCard card" id="computerCard">  </div>
+				</div>
+				<!-- computer deck -->
+				<div class="col-xs-3">
+					<br>
+					<div class="cDeck card"> </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<br>
+					<button id="flip"> Flip </button>
+					<br>
+					<button id="take">Take</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

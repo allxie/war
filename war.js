@@ -4,6 +4,7 @@ window.onload = function(){
 	function Card (numb){
 		this.numb = numb;
 		//this.suit = suit;
+		this.name; // for eventuality of aces and king/queen/jack
 	}
 	//deck constructor with an empty array
 	function Deck (){
@@ -50,7 +51,7 @@ window.onload = function(){
 	function Game(){
 		this.winner;
 		this.loser;
-	}
+	};
 	//cretes two players
 	Game.prototype.init = function(){
 		player = new Player();
@@ -65,23 +66,37 @@ window.onload = function(){
 		firstDeck.deal();
 		// console.log("Player 1: ", player.deck);
 		// console.log("Player 2: ", computer.deck);
-	}
+	};
 
 	$("#newGame").click(function(){
 		game = new Game();
 		game.init();
 	});
 
-	$("#flip").click(function(){
-		$("#playerCard").html(player.deck[player.deck.length-1].numb);
-		$("#computerCard").html(computer.deck[computer.deck.length-1].numb);
-	});
-	$("#take").click(function(){
-		game.compare();
-		$("#playerCard").html(" ");
-		$("#computerCard").html(" ");
+	var flipped = false;
 
-	})
+	$("#flip").click(function(){
+		if (player.deck.length < 1){
+			$("#playerCard").html("Empty! You lose.");
+		}
+		else if (computer.deck.length < 1){
+			$("#computerCard").html("Empty! You win!");
+		} else {
+			$("#playerCard").html(player.deck[player.deck.length-1].numb);
+			$("#computerCard").html(computer.deck[computer.deck.length-1].numb);
+		}
+		flipped = true;
+	});
+
+	$("#take").click(function(){
+		//makes sure the cards have been flipped first
+		if (flipped === true){
+			game.compare();
+			$("#playerCard").html(" ");
+			$("#computerCard").html(" ");
+		}
+		flipped = false;
+	});
 
 //this works even if flip hasn't been clicked. Fix.
 	Game.prototype.compare = function(){
@@ -102,6 +117,7 @@ window.onload = function(){
 			temp = computer.deck.pop();
 			computer.deck.unshift(temp);
 			player.deck.pop();
+			//for ties
 		} else {
 			flipThree(1);
 		}
@@ -116,20 +132,25 @@ window.onload = function(){
 		//these are the new cards we're comparing
 		var pCard = player.deck[player.deck.length-start];
 		var cCard = computer.deck[computer.deck.length-start];
+		//take out all of the cards that get played
+		//might have scoping issues with this
+		temp = computer.deck.splice(computer.deck.length-(start), computer.deck.length-1);
+		temp2 = player.deck.splice(player.deck.length-(start), player.deck.length-1);
 		//if player is higher than computer
 		if (pCard.numb > cCard.numb){
 			//take out all of the ones five back through the end of the array
-			temp = computer.deck.splice(computer.deck.length-(start + 1), computer.deck.length-1);
 			//take the array of the cards taken out
 			//and put each card in the beginning (bottom) of the player deck
 			for (var i = 0; i < temp.length; i++){
 				player.deck.unshift(temp[i]);
+				player.deck.unshift(temp2[i]);
 			}
 		} else if(pCard.numb < cCard.numb){
-			temp = player.deck.splice(player.deck.length-(start+1), player.deck.length-1);
-			for (var i = 0; i < temp.length; i++){
-				computer.deck.unshift(temp[i]);
-			}
+				for (var i = 0; i < temp.length; i++){
+					computer.deck.unshift(temp2[i]);
+					computer.deck.unshift(temp[i]);
+				}
+			//for additional ties
 		} else{
 			flipThree(start);
 		}
