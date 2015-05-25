@@ -1,4 +1,6 @@
 window.onload = function(){
+	//initializes game on load
+
 
 	//card constructor
 	function Card (numb){
@@ -67,26 +69,33 @@ window.onload = function(){
 		// console.log("Player 1: ", player.deck);
 		// console.log("Player 2: ", computer.deck);
 	};
+		game = new Game();
+	game.init();
 
 	$("#newGame").click(function(){
 		game = new Game();
 		game.init();
+		$("#gameStatus").html(" ");
 	});
 
 	var flipped = false;
 
 	$("#flip").click(function(){
 		if (player.deck.length < 1){
-			$("#playerCard").html("Empty! You lose.");
+			$("#gameStatus").html("You lose.");
 		}
 		else if (computer.deck.length < 1){
-			$("#computerCard").html("Empty! You win!");
+			$("#gameStatus").html("You win!");
 		} else {
+			$("#playerCard").removeClass('blank');
+			console.log("removed, maybe?");
+			$("#computerCard").removeClass('blank');
 			$("#playerCard").html(player.deck[player.deck.length-1].numb);
 			$("#computerCard").html(computer.deck[computer.deck.length-1].numb);
 		}
 		flipped = true;
 	});
+
 
 	$("#take").click(function(){
 		//makes sure the cards have been flipped first
@@ -94,6 +103,8 @@ window.onload = function(){
 			game.compare();
 			$("#playerCard").html(" ");
 			$("#computerCard").html(" ");
+			$("#playerCard").addClass('blank');
+			$("#computerCard").addClass('blank');
 		}
 		flipped = false;
 	});
@@ -119,6 +130,7 @@ window.onload = function(){
 			player.deck.pop();
 			//for ties
 		} else {
+			$("#gameStatus").html("Breaking tie...");
 			flipThree(1);
 		}
 		console.log("Player Deck: " + player.deck.length)
